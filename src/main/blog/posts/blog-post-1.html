@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started with Java and Kubernetes</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+</head>
+<body>
+<header>
+  <h1>Getting Started with Java and Kubernetes</h1>
+  <p>Explore the basics of deploying Java applications in a Kubernetes environment.</p>
+  <!-- Light/Dark Mode Switch -->
+  <div class="theme-switch">
+    <label for="theme-toggle">🌞</label>
+    <input type="checkbox" id="theme-toggle" />
+    <label for="theme-toggle">🌙</label>
+  </div>
+</header>
+<div class="container">
+    <span class="published">Published on December 31, 2024</span>
+    <h2>Introduction</h2>
+    <p>
+      Kubernetes has become the de facto standard for container orchestration,
+      and running Java applications on Kubernetes can unlock powerful scaling
+      and management capabilities. This post provides an overview of getting
+      started with Java on Kubernetes.
+    </p>
+
+    <h2>Prerequisites</h2>
+    <ul>
+      <li>Basic knowledge of Docker and Kubernetes</li>
+      <li>Java Development Kit (JDK) installed</li>
+      <li>A containerized Java application</li>
+    </ul>
+
+    <h2>Step 1: Containerizing Your Java Application</h2>
+    <div class="code-container">
+        <div class="code-header">
+            <span class="language-label">Dockerfile</span>
+            <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-dockerfile">
+// Example Dockerfile for Java
+FROM openjdk:17-jdk-alpine
+COPY target/myapp.jar myapp.jar
+ENTRYPOINT ["java", "-jar", "/myapp.jar"]
+  </code></pre>
+    </div>
+
+    <h2>Step 2: Deploying to Kubernetes</h2>
+    <p>
+      Use a YAML manifest file to define your deployment:
+    </p>
+    <div class="code-container">
+        <div class="code-header">
+            <span class="language-label">Yaml</span>
+            <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    metadata:
+      labels:
+        app: java-app
+    spec:
+      containers:
+      - name: java-app
+        image: myrepo/myapp:latest
+        ports:
+        - containerPort: 8080
+          </code></pre>
+    </div>
+
+    <h2>Step 3: Use Bundlebee</h2>
+    <p>
+        Use a JSON manifest file to define your deployment with Bundlebee:
+    </p>
+    <div class="code-container">
+        <div class="code-header">
+            <span class="language-label">Json</span>
+            <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code class="language-json">
+  "alveoli": [
+    {
+      "//": "Setup \"${project.artifactId}\" which runs a MinIO instance usable by other applications.",
+      "name": "${project.groupId}:${project.artifactId}:${project.version}",
+      "descriptors": [
+        {
+          "name": "${project.groupId}_${project.artifactId}.configmap",
+          "interpolate": true
+        },
+        {
+          "name": "${project.groupId}_${project.artifactId}.persistencevolume",
+          "interpolate": true
+        },
+        {
+          "name": "${project.groupId}_${project.artifactId}.persistencevolumeclaim",
+          "interpolate": true
+        },
+        {
+          "name": "${project.groupId}_${project.artifactId}.service",
+          "interpolate": true
+        },
+        {
+          "name": "${project.groupId}_${project.artifactId}.statefulset",
+          "interpolate": true
+        }
+      ],
+      "placeholdersDoc": [
+        {
+          "name": "minio-local.image",
+          "description": "The minio image to use."
+        },
+        {
+          "name": "minio-local.rootUser",
+          "description": "The root user."
+        },
+        {
+          "name": "minio-local.rootPassword",
+          "description": "The root password."
+        },
+        {
+          "name": "minio-local.regionName",
+          "description": "The S3 region name."
+        },
+        {
+          "name": "minio-local.apiNodePort",
+          "description": "The published port of the api outside of the cluster."
+        },
+        {
+          "name": "minio-local.consoleNodePort",
+          "description": "The published port of the console outside of the cluster."
+        }
+      ]
+    }
+  ]
+}
+        </code></pre>
+    </div>
+
+    <h2>Conclusion</h2>
+    <p>
+      Congratulations! You’ve deployed your first Java application on Kubernetes.
+      In future posts, we’ll dive deeper into advanced topics like scaling, monitoring,
+      and optimizing Java applications in Kubernetes environments.
+    </p>
+</div>
+<footer>
+    <nav>
+        <a href="/index.html">Home</a>
+        <a href="/about.html">About</a>
+    </nav>
+    <p>&copy; 2024 François Papon - openobject.fr - All Rights Reserved</p>
+</footer>
+<script src="/assets/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/dockerfile.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/java.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const copyButtons = document.querySelectorAll('.copy-btn');
+
+        copyButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const codeBlock = button.closest('.code-container').querySelector('code');
+            navigator.clipboard.writeText(codeBlock.innerText).then(() => {
+              button.textContent = 'Copied!';
+              setTimeout(() => (button.textContent = 'Copy'), 2000);
+            }).catch(err => {
+              console.error('Failed to copy text: ', err);
+              button.textContent = 'Error!';
+            });
+          });
+        });
+      });
+</script>
+</body>
+</html>

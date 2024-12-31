@@ -1,0 +1,10 @@
+= OpenObject blog
+
+== Run
+
+You can use the Yupiik simple http server for dev in local:
+
+[source,bash]
+----
+docker run --rm -p 8080:8080 -v ./src/main/blog:/opt/yupiik/www  ossyupiik/simple-http-server:1.0.1 8080
+----
