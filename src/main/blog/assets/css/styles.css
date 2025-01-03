@@ -195,3 +195,35 @@ footer p {
 .copy-btn:hover {
   background-color: var(--blue);
 }
+
+/* Badges for categories */
+.badges {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #35424a;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 0.7em;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.badge.Java {
+  background-color: rgba(0, 115, 150, 0.3); /* Java Blue */
+  color: rgba(0, 115, 150, 1);
+}
+
+.badge.Kubernetes {
+  background-color: rgba(50, 108, 229, 0.3); /* Kubernetes Blue */
+  color: rgba(50, 108, 229, 1);
+}
+
+.badge.DevOps {
+  background-color: rgba(255, 152, 0, 0.3); /* Orange */
+  color: rgba(255, 152, 0, 1);
+}
